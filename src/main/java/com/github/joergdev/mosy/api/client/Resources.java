@@ -5,7 +5,8 @@ import java.util.ResourceBundle;
 public class Resources
 {
   private static final ResourceBundle MOSY_API_CLIENT = ResourceBundle.getBundle("mosy_api_client");
-  private static final ResourceBundle ERROR_MESSAGES = ResourceBundle.getBundle("error_messages");
+  private static final ResourceBundle ERROR_MESSAGES = ResourceBundle
+      .getBundle("mosy_api_client_error_messages");
 
   public static String getProperty(String key)
   {
