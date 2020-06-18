@@ -20,7 +20,6 @@ import com.github.joergdev.mosy.api.model.RecordConfig;
 import com.github.joergdev.mosy.api.request.mockservices.CustomRequestRequest;
 import com.github.joergdev.mosy.api.response.AbstractResponse;
 import com.github.joergdev.mosy.api.response.EmptyResponse;
-import com.github.joergdev.mosy.api.response.ResponseMessage;
 import com.github.joergdev.mosy.api.response.ResponseMessageLevel;
 import com.github.joergdev.mosy.api.response._interface.method.LoadMockDataResponse;
 import com.github.joergdev.mosy.api.response._interface.method.LoadRecordConfigsResponse;
@@ -311,31 +310,8 @@ public class MosyApiClient
   {
     if (!response.isStateOK())
     {
-      StringBuilder buiMsg = new StringBuilder();
-
-      for (ResponseMessage rm : response.getMessagesForLevel(ResponseMessageLevel.FATAL,
-          ResponseMessageLevel.ERROR))
-
-      {
-        if (buiMsg.length() > 0)
-        {
-          buiMsg.append("\n");
-        }
-
-        if (ResponseMessageLevel.FATAL.equals(rm.getResponseCode().level))
-        {
-          buiMsg.append("FATAL: ");
-        }
-
-        buiMsg.append(rm.getFullMessage());
-      }
-
-      if (buiMsg.length() == 0)
-      {
-        buiMsg.append(Resources.getErrorMessage("unknown_error"));
-      }
-
-      throw new IllegalStateException(buiMsg.toString());
+      throw new MosyApiClientException(
+          response.getMessagesForLevel(ResponseMessageLevel.FATAL, ResponseMessageLevel.ERROR));
     }
   }
 
