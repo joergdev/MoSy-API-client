@@ -247,11 +247,11 @@ public class MosyApiClient
 
   //------------------ MockServices -----------------------------------
 
-  public CustomRequestResponse customRequest(CustomRequestRequest request, Integer mockProfileID,
+  public CustomRequestResponse customRequest(CustomRequestRequest request, String mockProfileName,
                                              Integer recordSessionID)
   {
     return invokeApiPostCall("mock-services/custom-request", CustomRequestResponse.class, request,
-        mockProfileID, recordSessionID);
+        mockProfileName, recordSessionID);
   }
 
   //------------------ End MockServices -------------------------------
@@ -275,9 +275,10 @@ public class MosyApiClient
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity,
-                                                           Integer mockProfileID, Integer recordSessionID)
+                                                           String mockProfileName, Integer recordSessionID)
   {
-    return invokeApiCall(path, HTTP_METHOD.POST, responseClass, entity, null, mockProfileID, recordSessionID);
+    return invokeApiCall(path, HTTP_METHOD.POST, responseClass, entity, null, mockProfileName,
+        recordSessionID);
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity)
@@ -292,8 +293,8 @@ public class MosyApiClient
 
   private <T extends AbstractResponse> T invokeApiCall(String path, HTTP_METHOD method,
                                                        Class<T> responseClass, Object entity,
-                                                       Map<String, Object> queryParams, Integer mockProfileID,
-                                                       Integer recordSessionID)
+                                                       Map<String, Object> queryParams,
+                                                       String mockProfileName, Integer recordSessionID)
   {
     Client client = ClientBuilder.newClient();
 
@@ -329,9 +330,9 @@ public class MosyApiClient
     }
 
     // set mockProfileID
-    if (mockProfileID != null)
+    if (mockProfileName != null)
     {
-      invocationBuilder.header(APIConstants.HTTP_HEADER_MOCK_PROFILE_ID, String.valueOf(mockProfileID));
+      invocationBuilder.header(APIConstants.HTTP_HEADER_MOCK_PROFILE_NAME, mockProfileName);
     }
 
     // set recordSessionID

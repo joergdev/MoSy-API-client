@@ -28,7 +28,7 @@ public abstract class AbstractCustomMockImpl<T>
 
       mosyApiClient = getMosyApiClient();
 
-      CustomRequestResponse response = mosyApiClient.customRequest(req, getMockProfileID(),
+      CustomRequestResponse response = mosyApiClient.customRequest(req, getMockProfileName(),
           getRecordSessionID());
 
       // Routing
@@ -66,7 +66,7 @@ public abstract class AbstractCustomMockImpl<T>
 
   public abstract MosyApiClient getMosyApiClient();
 
-  public abstract Integer getMockProfileID();
+  public abstract String getMockProfileName();
 
   public abstract Integer getRecordSessionID();
 
