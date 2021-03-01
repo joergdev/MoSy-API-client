@@ -1,9 +1,9 @@
-package com.github.joergdev.mosy.api.client;
+package de.joergdev.mosy.api.client;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import com.github.joergdev.mosy.api.model.InterfaceMethod;
-import com.github.joergdev.mosy.api.model.Record;
+import de.joergdev.mosy.api.model.InterfaceMethod;
+import de.joergdev.mosy.api.model.Record;
 
 @Ignore
 public class MosyApiClientAdhocTest
