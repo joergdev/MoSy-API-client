@@ -1,6 +1,7 @@
 package de.joergdev.mosy.api.client;
 
 import de.joergdev.mosy.api.model.Record;
+import de.joergdev.mosy.api.model.RecordSession;
 import de.joergdev.mosy.api.request.mockservices.CustomRequestRequest;
 import de.joergdev.mosy.api.response.mockservices.CustomRequestResponse;
 import de.joergdev.mosy.api.response.record.SaveResponse;
@@ -183,6 +184,12 @@ public abstract class AbstractCustomMockImpl<T>
       mockRecord = new de.joergdev.mosy.api.model.Record();
       mockRecord.setInterfaceMethod(response.getInterfaceMethod());
       mockRecord.setRequestData(req.getRequest());
+
+      Integer recordSessionID = getRecordSessionID();
+      if (recordSessionID != null)
+      {
+        mockRecord.setRecordSession(new RecordSession(recordSessionID));
+      }
     }
   }
 
