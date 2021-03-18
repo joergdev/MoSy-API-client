@@ -1,8 +1,8 @@
-package com.github.joergdev.mosy.api.client;
+package de.joergdev.mosy.api.client;
 
 import java.util.Collection;
-import com.github.joergdev.mosy.api.response.ResponseMessage;
-import com.github.joergdev.mosy.api.response.ResponseMessageLevel;
+import de.joergdev.mosy.api.response.ResponseMessage;
+import de.joergdev.mosy.api.response.ResponseMessageLevel;
 
 public class MosyApiClientException extends RuntimeException
 {

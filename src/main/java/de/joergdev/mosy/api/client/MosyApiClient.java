@@ -1,4 +1,4 @@
-package com.github.joergdev.mosy.api.client;
+package de.joergdev.mosy.api.client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,28 +11,28 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
-import com.github.joergdev.mosy.api.APIConstants;
-import com.github.joergdev.mosy.api.model.BaseData;
-import com.github.joergdev.mosy.api.model.Interface;
-import com.github.joergdev.mosy.api.model.MockData;
-import com.github.joergdev.mosy.api.model.MockProfile;
-import com.github.joergdev.mosy.api.model.Record;
-import com.github.joergdev.mosy.api.model.RecordConfig;
-import com.github.joergdev.mosy.api.request.mockservices.CustomRequestRequest;
-import com.github.joergdev.mosy.api.response.AbstractResponse;
-import com.github.joergdev.mosy.api.response.EmptyResponse;
-import com.github.joergdev.mosy.api.response.ResponseMessageLevel;
-import com.github.joergdev.mosy.api.response._interface.method.LoadMockDataResponse;
-import com.github.joergdev.mosy.api.response._interface.method.LoadRecordConfigsResponse;
-import com.github.joergdev.mosy.api.response.mockprofile.LoadProfilesResponse;
-import com.github.joergdev.mosy.api.response.mockservices.CustomRequestResponse;
-import com.github.joergdev.mosy.api.response.record.LoadAllResponse;
-import com.github.joergdev.mosy.api.response.record.LoadResponse;
-import com.github.joergdev.mosy.api.response.record.SaveResponse;
-import com.github.joergdev.mosy.api.response.record.session.CreateResponse;
-import com.github.joergdev.mosy.api.response.record.session.LoadSessionsResponse;
-import com.github.joergdev.mosy.api.response.system.LoadBaseDataResponse;
-import com.github.joergdev.mosy.api.response.system.LoginResponse;
+import de.joergdev.mosy.api.APIConstants;
+import de.joergdev.mosy.api.model.BaseData;
+import de.joergdev.mosy.api.model.Interface;
+import de.joergdev.mosy.api.model.MockData;
+import de.joergdev.mosy.api.model.MockProfile;
+import de.joergdev.mosy.api.model.Record;
+import de.joergdev.mosy.api.model.RecordConfig;
+import de.joergdev.mosy.api.request.mockservices.CustomRequestRequest;
+import de.joergdev.mosy.api.response.AbstractResponse;
+import de.joergdev.mosy.api.response.EmptyResponse;
+import de.joergdev.mosy.api.response.ResponseMessageLevel;
+import de.joergdev.mosy.api.response._interface.method.LoadMockDataResponse;
+import de.joergdev.mosy.api.response._interface.method.LoadRecordConfigsResponse;
+import de.joergdev.mosy.api.response.mockprofile.LoadProfilesResponse;
+import de.joergdev.mosy.api.response.mockservices.CustomRequestResponse;
+import de.joergdev.mosy.api.response.record.LoadAllResponse;
+import de.joergdev.mosy.api.response.record.LoadResponse;
+import de.joergdev.mosy.api.response.record.SaveResponse;
+import de.joergdev.mosy.api.response.record.session.CreateResponse;
+import de.joergdev.mosy.api.response.record.session.LoadSessionsResponse;
+import de.joergdev.mosy.api.response.system.LoadBaseDataResponse;
+import de.joergdev.mosy.api.response.system.LoginResponse;
 
 public class MosyApiClient
 {
@@ -145,16 +145,16 @@ public class MosyApiClient
     return invokeApiGetCall("mock-profiles", LoadProfilesResponse.class);
   }
 
-  public com.github.joergdev.mosy.api.response.mockprofile.SaveResponse saveMockProfile(MockProfile apiMockProfile)
+  public de.joergdev.mosy.api.response.mockprofile.SaveResponse saveMockProfile(MockProfile apiMockProfile)
   {
     return invokeApiPostCall("mock-profiles/save",
-        com.github.joergdev.mosy.api.response.mockprofile.SaveResponse.class, apiMockProfile);
+        de.joergdev.mosy.api.response.mockprofile.SaveResponse.class, apiMockProfile);
   }
 
-  public com.github.joergdev.mosy.api.response.mockprofile.LoadResponse loadMockProfile(Integer id)
+  public de.joergdev.mosy.api.response.mockprofile.LoadResponse loadMockProfile(Integer id)
   {
     return invokeApiGetCall("mock-profiles/" + id,
-        com.github.joergdev.mosy.api.response.mockprofile.LoadResponse.class);
+        de.joergdev.mosy.api.response.mockprofile.LoadResponse.class);
   }
 
   public EmptyResponse deleteMockProfile(Integer id)
@@ -162,26 +162,26 @@ public class MosyApiClient
     return invokeApiDeleteCall("mock-profiles/" + id + "/delete", EmptyResponse.class);
   }
 
-  public com.github.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse loadMockProfileMockData(Integer id)
+  public de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse loadMockProfileMockData(Integer id)
   {
     return invokeApiGetCall("mock-profiles/" + id + "/mockdata",
-        com.github.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse.class);
+        de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse.class);
   }
 
   //------------------ End Mockprofiles -------------------------------
 
   //------------------ Interfaces -----------------------------------
 
-  public com.github.joergdev.mosy.api.response._interface.LoadResponse loadInterface(Integer id)
+  public de.joergdev.mosy.api.response._interface.LoadResponse loadInterface(Integer id)
   {
     return invokeApiGetCall("interfaces/" + id,
-        com.github.joergdev.mosy.api.response._interface.LoadResponse.class);
+        de.joergdev.mosy.api.response._interface.LoadResponse.class);
   }
 
-  public com.github.joergdev.mosy.api.response._interface.SaveResponse saveInterface(Interface apiInterface)
+  public de.joergdev.mosy.api.response._interface.SaveResponse saveInterface(Interface apiInterface)
   {
     return invokeApiPostCall("interfaces/save",
-        com.github.joergdev.mosy.api.response._interface.SaveResponse.class, apiInterface);
+        de.joergdev.mosy.api.response._interface.SaveResponse.class, apiInterface);
   }
 
   public EmptyResponse deleteInterface(Integer id)
@@ -205,16 +205,16 @@ public class MosyApiClient
 
   //------------------ RecordConfig -----------------------------------
 
-  public com.github.joergdev.mosy.api.response.recordconfig.LoadResponse loadRecordConfig(Integer id)
+  public de.joergdev.mosy.api.response.recordconfig.LoadResponse loadRecordConfig(Integer id)
   {
     return invokeApiGetCall("record-config/" + id,
-        com.github.joergdev.mosy.api.response.recordconfig.LoadResponse.class);
+        de.joergdev.mosy.api.response.recordconfig.LoadResponse.class);
   }
 
-  public com.github.joergdev.mosy.api.response.recordconfig.SaveResponse saveRecordConfig(RecordConfig apiRecordConfig)
+  public de.joergdev.mosy.api.response.recordconfig.SaveResponse saveRecordConfig(RecordConfig apiRecordConfig)
   {
     return invokeApiPostCall("record-config/save",
-        com.github.joergdev.mosy.api.response.recordconfig.SaveResponse.class, apiRecordConfig);
+        de.joergdev.mosy.api.response.recordconfig.SaveResponse.class, apiRecordConfig);
   }
 
   public EmptyResponse deleteRecordConfig(Integer id)
@@ -226,16 +226,16 @@ public class MosyApiClient
 
   //------------------ MockData -----------------------------------
 
-  public com.github.joergdev.mosy.api.response.mockdata.LoadResponse loadMockData(Integer id)
+  public de.joergdev.mosy.api.response.mockdata.LoadResponse loadMockData(Integer id)
   {
     return invokeApiGetCall("mockdata/" + id,
-        com.github.joergdev.mosy.api.response.mockdata.LoadResponse.class);
+        de.joergdev.mosy.api.response.mockdata.LoadResponse.class);
   }
 
-  public com.github.joergdev.mosy.api.response.mockdata.SaveResponse saveMockData(MockData apiMockData)
+  public de.joergdev.mosy.api.response.mockdata.SaveResponse saveMockData(MockData apiMockData)
   {
     return invokeApiPostCall("mockdata/save",
-        com.github.joergdev.mosy.api.response.mockdata.SaveResponse.class, apiMockData);
+        de.joergdev.mosy.api.response.mockdata.SaveResponse.class, apiMockData);
   }
 
   public EmptyResponse deleteMockData(Integer id)
@@ -247,11 +247,11 @@ public class MosyApiClient
 
   //------------------ MockServices -----------------------------------
 
-  public CustomRequestResponse customRequest(CustomRequestRequest request, Integer mockProfileID,
+  public CustomRequestResponse customRequest(CustomRequestRequest request, String mockProfileName,
                                              Integer recordSessionID)
   {
     return invokeApiPostCall("mock-services/custom-request", CustomRequestResponse.class, request,
-        mockProfileID, recordSessionID);
+        mockProfileName, recordSessionID);
   }
 
   //------------------ End MockServices -------------------------------
@@ -275,9 +275,10 @@ public class MosyApiClient
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity,
-                                                           Integer mockProfileID, Integer recordSessionID)
+                                                           String mockProfileName, Integer recordSessionID)
   {
-    return invokeApiCall(path, HTTP_METHOD.POST, responseClass, entity, null, mockProfileID, recordSessionID);
+    return invokeApiCall(path, HTTP_METHOD.POST, responseClass, entity, null, mockProfileName,
+        recordSessionID);
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity)
@@ -292,8 +293,8 @@ public class MosyApiClient
 
   private <T extends AbstractResponse> T invokeApiCall(String path, HTTP_METHOD method,
                                                        Class<T> responseClass, Object entity,
-                                                       Map<String, Object> queryParams, Integer mockProfileID,
-                                                       Integer recordSessionID)
+                                                       Map<String, Object> queryParams,
+                                                       String mockProfileName, Integer recordSessionID)
   {
     Client client = ClientBuilder.newClient();
 
@@ -329,9 +330,9 @@ public class MosyApiClient
     }
 
     // set mockProfileID
-    if (mockProfileID != null)
+    if (mockProfileName != null)
     {
-      invocationBuilder.header(APIConstants.HTTP_HEADER_MOCK_PROFILE_ID, String.valueOf(mockProfileID));
+      invocationBuilder.header(APIConstants.HTTP_HEADER_MOCK_PROFILE_NAME, mockProfileName);
     }
 
     // set recordSessionID

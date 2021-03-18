@@ -1,4 +1,4 @@
-package com.github.joergdev.mosy.api.client;
+package de.joergdev.mosy.api.client;
 
 import java.util.ResourceBundle;
 
