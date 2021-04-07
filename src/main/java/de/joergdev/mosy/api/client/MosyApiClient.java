@@ -162,9 +162,19 @@ public class MosyApiClient
     return invokeApiDeleteCall("mock-profiles/" + id + "/delete", EmptyResponse.class);
   }
 
+  public de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse loadMockProfileMockData(String name)
+  {
+    return loadMockProfileMockData((Object) name);
+  }
+
   public de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse loadMockProfileMockData(Integer id)
   {
-    return invokeApiGetCall("mock-profiles/" + id + "/mockdata",
+    return loadMockProfileMockData((Object) id);
+  }
+
+  private de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse loadMockProfileMockData(Object key)
+  {
+    return invokeApiGetCall("mock-profiles/" + key + "/mockdata",
         de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse.class);
   }
 
@@ -174,14 +184,13 @@ public class MosyApiClient
 
   public de.joergdev.mosy.api.response._interface.LoadResponse loadInterface(Integer id)
   {
-    return invokeApiGetCall("interfaces/" + id,
-        de.joergdev.mosy.api.response._interface.LoadResponse.class);
+    return invokeApiGetCall("interfaces/" + id, de.joergdev.mosy.api.response._interface.LoadResponse.class);
   }
 
   public de.joergdev.mosy.api.response._interface.SaveResponse saveInterface(Interface apiInterface)
   {
-    return invokeApiPostCall("interfaces/save",
-        de.joergdev.mosy.api.response._interface.SaveResponse.class, apiInterface);
+    return invokeApiPostCall("interfaces/save", de.joergdev.mosy.api.response._interface.SaveResponse.class,
+        apiInterface);
   }
 
   public EmptyResponse deleteInterface(Integer id)
@@ -228,14 +237,13 @@ public class MosyApiClient
 
   public de.joergdev.mosy.api.response.mockdata.LoadResponse loadMockData(Integer id)
   {
-    return invokeApiGetCall("mockdata/" + id,
-        de.joergdev.mosy.api.response.mockdata.LoadResponse.class);
+    return invokeApiGetCall("mockdata/" + id, de.joergdev.mosy.api.response.mockdata.LoadResponse.class);
   }
 
   public de.joergdev.mosy.api.response.mockdata.SaveResponse saveMockData(MockData apiMockData)
   {
-    return invokeApiPostCall("mockdata/save",
-        de.joergdev.mosy.api.response.mockdata.SaveResponse.class, apiMockData);
+    return invokeApiPostCall("mockdata/save", de.joergdev.mosy.api.response.mockdata.SaveResponse.class,
+        apiMockData);
   }
 
   public EmptyResponse deleteMockData(Integer id)
