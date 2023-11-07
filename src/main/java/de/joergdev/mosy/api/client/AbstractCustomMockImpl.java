@@ -39,7 +39,7 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  *   // ---- Record ----
  *   if (carCustomMockImpl.isRecordResponse())
  *   {
- *     carCustomMockImpl.recordResponse(Car.toXml());
+ *     carCustomMockImpl.recordResponse(car.toXml());
  *   }
  *   // ----------------
  *
@@ -52,23 +52,13 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  * 
  * public class CarCustomMockImpl extends AbstractCustomMockImpl<Car>
  * {
- *  private boolean mockEnabled;
- *  private String mockProfile;
- *  private Integer recordSessionID;
- *
  *  private Integer carID;
- *
- *  public CarCustomMockImpl(boolean mockEnabled, String mockProfile, Integer recordSessionID, Integer carID)
+ *  
+ *  public CarCustomMockImpl(CustomMockArguments customMockArguments, Integer carID)
  *  {
- *    this.mockEnabled = mockEnabled;
- *    this.mockProfile = mockProfile;
- *    this.recordSessionID = recordSessionID;
+ *    super(customMockArguments);
+ *    
  *    this.carID = carID;
- *  }
- *
- *  public boolean isMockEnabled()
- *  {
- *    return mockEnabled;
  *  }
  *
  *  public void fillCustomRequestRequest(CustomRequestRequest req)
@@ -86,16 +76,6 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  *    return apiClient;
  *  }
  *
- *  public String getMockProfileName()
- *  {
- *    return mockProfile;
- *  } 
- *
- *  public Integer getRecordSessionID()
- *  {
- *    return recordSessionID;
- *  }
- *
  *  public Car getMockResponse(CustomRequestResponse response)
  *  {
  *    return Car.fromXml(response.getResponse());
@@ -110,22 +90,29 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  */
 public abstract class AbstractCustomMockImpl<T>
 {
+  protected final CustomMockArguments customMockArguments;
+
   private MosyApiClient mosyApiClient;
 
   private boolean recordResponse = false;
   private Record mockRecord = null;
 
+  public AbstractCustomMockImpl(CustomMockArguments customMockArguments)
+  {
+    this.customMockArguments = customMockArguments;
+  }
+
   public T getMockResponse()
   {
-    if (isMockEnabled())
+    if (customMockArguments.isMockEnabled())
     {
       CustomRequestRequest req = new CustomRequestRequest();
       fillCustomRequestRequest(req);
 
       mosyApiClient = getMosyApiClient();
 
-      CustomRequestResponse response = mosyApiClient.customRequest(req, getMockProfileName(),
-          getRecordSessionID());
+      CustomRequestResponse response = mosyApiClient.customRequest(req,
+          customMockArguments.getMockProfileName(), customMockArguments.getRecordSessionID());
 
       // Routing
       if (response.isRoute())
@@ -149,8 +136,6 @@ public abstract class AbstractCustomMockImpl<T>
     return mosyApiClient.saveRecord(mockRecord);
   }
 
-  public abstract boolean isMockEnabled();
-
   /**
    * Implementation needed:
    * 
@@ -161,10 +146,6 @@ public abstract class AbstractCustomMockImpl<T>
   public abstract void fillCustomRequestRequest(CustomRequestRequest req);
 
   public abstract MosyApiClient getMosyApiClient();
-
-  public abstract String getMockProfileName();
-
-  public abstract Integer getRecordSessionID();
 
   /**
    * Build Mockresponse of type T (for example your expected DTO) by {@link CustomRequestResponse}.
@@ -185,7 +166,7 @@ public abstract class AbstractCustomMockImpl<T>
       mockRecord.setInterfaceMethod(response.getInterfaceMethod());
       mockRecord.setRequestData(req.getRequest());
 
-      Integer recordSessionID = getRecordSessionID();
+      Integer recordSessionID = customMockArguments.getRecordSessionID();
       if (recordSessionID != null)
       {
         mockRecord.setRecordSession(new RecordSession(recordSessionID));
