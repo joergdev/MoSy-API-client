@@ -15,11 +15,10 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  * 
  * public class CarService
  * {
- *  public static Car loadCar(Integer id, boolean mockEnabled, String mockProfile, Integer recordSessionID)
+ *  public static Car loadCar(Integer id, CustomMockArguments customMockArguments)
  *  {
  *   // ---- Mock ----
- *   CarCustomMockImpl carCustomMockImpl = new CarCustomMockImpl(mockEnabled, mockProfile, recordSessionID,
- *       id);
+ *   CarCustomMockImpl carCustomMockImpl = new CarCustomMockImpl(customMockArguments, id);
  *
  *   Car carMockResponse = carCustomMockImpl.getMockResponse();
  *   if (carMockResponse != null)
