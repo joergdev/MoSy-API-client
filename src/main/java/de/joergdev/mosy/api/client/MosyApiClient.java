@@ -2,6 +2,7 @@ package de.joergdev.mosy.api.client;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 import de.joergdev.mosy.api.APIConstants;
 import de.joergdev.mosy.api.model.BaseData;
+import de.joergdev.mosy.api.model.HttpMethod;
 import de.joergdev.mosy.api.model.Interface;
 import de.joergdev.mosy.api.model.MockData;
 import de.joergdev.mosy.api.model.MockProfile;
@@ -37,11 +39,6 @@ import de.joergdev.mosy.api.response.system.LoginResponse;
 public class MosyApiClient
 {
   private static final Logger LOG = Logger.getLogger(MosyApiClient.class);
-
-  private enum HTTP_METHOD
-  {
-    GET, PUT, POST, DELETE;
-  }
 
   private String token;
 
@@ -274,34 +271,33 @@ public class MosyApiClient
   private <T extends AbstractResponse> T invokeApiGetCall(String path, Class<T> responseClass,
                                                           Map<String, Object> queryParams)
   {
-    return invokeApiCall(path, HTTP_METHOD.GET, responseClass, null, queryParams, null, null);
+    return invokeApiCall(path, HttpMethod.GET, responseClass, null, queryParams, null, null);
   }
 
   private <T extends AbstractResponse> T invokeApiPutCall(String path, Class<T> responseClass, Object entity)
   {
-    return invokeApiCall(path, HTTP_METHOD.PUT, responseClass, entity, null, null, null);
+    return invokeApiCall(path, HttpMethod.PUT, responseClass, entity, null, null, null);
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity,
                                                            String mockProfileName, Integer recordSessionID)
   {
-    return invokeApiCall(path, HTTP_METHOD.POST, responseClass, entity, null, mockProfileName,
+    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, mockProfileName,
         recordSessionID);
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity)
   {
-    return invokeApiCall(path, HTTP_METHOD.POST, responseClass, entity, null, null, null);
+    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, null, null);
   }
 
   private <T extends AbstractResponse> T invokeApiDeleteCall(String path, Class<T> responseClass)
   {
-    return invokeApiCall(path, HTTP_METHOD.DELETE, responseClass, null, null, null, null);
+    return invokeApiCall(path, HttpMethod.DELETE, responseClass, null, null, null, null);
   }
 
-  private <T extends AbstractResponse> T invokeApiCall(String path, HTTP_METHOD method,
-                                                       Class<T> responseClass, Object entity,
-                                                       Map<String, Object> queryParams,
+  private <T extends AbstractResponse> T invokeApiCall(String path, HttpMethod method, Class<T> responseClass,
+                                                       Object entity, Map<String, Object> queryParams,
                                                        String mockProfileName, Integer recordSessionID)
   {
     Client client = ClientBuilder.newClient();
@@ -360,6 +356,8 @@ public class MosyApiClient
 
   private <T extends AbstractResponse> void checkForError(T response)
   {
+    Objects.requireNonNull(response);
+
     if (!response.isStateOK())
     {
       throw new MosyApiClientException(
@@ -367,7 +365,7 @@ public class MosyApiClient
     }
   }
 
-  private <T extends AbstractResponse> T invokeAndGetResponse(HTTP_METHOD method, Class<T> responseClass,
+  private <T extends AbstractResponse> T invokeAndGetResponse(HttpMethod method, Class<T> responseClass,
                                                               Object entity,
                                                               Invocation.Builder invocationBuilder,
                                                               String endpoint)
@@ -383,19 +381,19 @@ public class MosyApiClient
       timeStart = System.currentTimeMillis();
     }
 
-    if (HTTP_METHOD.GET.equals(method))
+    if (HttpMethod.GET.equals(method))
     {
       response = invocationBuilder.get(responseClass);
     }
-    else if (HTTP_METHOD.PUT.equals(method))
+    else if (HttpMethod.PUT.equals(method))
     {
       response = invocationBuilder.put(Entity.entity(entity, MediaType.APPLICATION_JSON), responseClass);
     }
-    else if (HTTP_METHOD.POST.equals(method))
+    else if (HttpMethod.POST.equals(method))
     {
       response = invocationBuilder.post(Entity.entity(entity, MediaType.APPLICATION_JSON), responseClass);
     }
-    else if (HTTP_METHOD.DELETE.equals(method))
+    else if (HttpMethod.DELETE.equals(method))
     {
       response = invocationBuilder.delete(responseClass);
     }
