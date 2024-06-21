@@ -114,6 +114,11 @@ public class MosyApiClient
     return invokeApiDeleteCall("records/" + id + "/delete", EmptyResponse.class);
   }
 
+  public EmptyResponse deleteRecords()
+  {
+    return invokeApiDeleteCall("records/delete", EmptyResponse.class);
+  }
+
   //------------------ End Records -------------------------------
 
   //------------------ Recordsessions -------------------------------
@@ -144,14 +149,12 @@ public class MosyApiClient
 
   public de.joergdev.mosy.api.response.mockprofile.SaveResponse saveMockProfile(MockProfile apiMockProfile)
   {
-    return invokeApiPostCall("mock-profiles/save",
-        de.joergdev.mosy.api.response.mockprofile.SaveResponse.class, apiMockProfile);
+    return invokeApiPostCall("mock-profiles/save", de.joergdev.mosy.api.response.mockprofile.SaveResponse.class, apiMockProfile);
   }
 
   public de.joergdev.mosy.api.response.mockprofile.LoadResponse loadMockProfile(Integer id)
   {
-    return invokeApiGetCall("mock-profiles/" + id,
-        de.joergdev.mosy.api.response.mockprofile.LoadResponse.class);
+    return invokeApiGetCall("mock-profiles/" + id, de.joergdev.mosy.api.response.mockprofile.LoadResponse.class);
   }
 
   public EmptyResponse deleteMockProfile(Integer id)
@@ -171,8 +174,7 @@ public class MosyApiClient
 
   private de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse loadMockProfileMockData(Object key)
   {
-    return invokeApiGetCall("mock-profiles/" + key + "/mockdata",
-        de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse.class);
+    return invokeApiGetCall("mock-profiles/" + key + "/mockdata", de.joergdev.mosy.api.response.mockprofile.LoadMockDataResponse.class);
   }
 
   //------------------ End Mockprofiles -------------------------------
@@ -186,8 +188,7 @@ public class MosyApiClient
 
   public de.joergdev.mosy.api.response._interface.SaveResponse saveInterface(Interface apiInterface)
   {
-    return invokeApiPostCall("interfaces/save", de.joergdev.mosy.api.response._interface.SaveResponse.class,
-        apiInterface);
+    return invokeApiPostCall("interfaces/save", de.joergdev.mosy.api.response._interface.SaveResponse.class, apiInterface);
   }
 
   public EmptyResponse deleteInterface(Integer id)
@@ -197,14 +198,12 @@ public class MosyApiClient
 
   public LoadMockDataResponse loadMethodMockData(Integer interfaceID, Integer methodID)
   {
-    return invokeApiGetCall("interfaces/" + interfaceID + "/methods/" + methodID + "/mockdata",
-        LoadMockDataResponse.class);
+    return invokeApiGetCall("interfaces/" + interfaceID + "/methods/" + methodID + "/mockdata", LoadMockDataResponse.class);
   }
 
   public LoadRecordConfigsResponse loadMethodRecordConfigs(Integer interfaceID, Integer methodID)
   {
-    return invokeApiGetCall("interfaces/" + interfaceID + "/methods/" + methodID + "/recordconfigs",
-        LoadRecordConfigsResponse.class);
+    return invokeApiGetCall("interfaces/" + interfaceID + "/methods/" + methodID + "/recordconfigs", LoadRecordConfigsResponse.class);
   }
 
   //------------------ End Interfaces -------------------------------
@@ -213,14 +212,12 @@ public class MosyApiClient
 
   public de.joergdev.mosy.api.response.recordconfig.LoadResponse loadRecordConfig(Integer id)
   {
-    return invokeApiGetCall("record-config/" + id,
-        de.joergdev.mosy.api.response.recordconfig.LoadResponse.class);
+    return invokeApiGetCall("record-config/" + id, de.joergdev.mosy.api.response.recordconfig.LoadResponse.class);
   }
 
   public de.joergdev.mosy.api.response.recordconfig.SaveResponse saveRecordConfig(RecordConfig apiRecordConfig)
   {
-    return invokeApiPostCall("record-config/save",
-        de.joergdev.mosy.api.response.recordconfig.SaveResponse.class, apiRecordConfig);
+    return invokeApiPostCall("record-config/save", de.joergdev.mosy.api.response.recordconfig.SaveResponse.class, apiRecordConfig);
   }
 
   public EmptyResponse deleteRecordConfig(Integer id)
@@ -239,8 +236,7 @@ public class MosyApiClient
 
   public de.joergdev.mosy.api.response.mockdata.SaveResponse saveMockData(MockData apiMockData)
   {
-    return invokeApiPostCall("mockdata/save", de.joergdev.mosy.api.response.mockdata.SaveResponse.class,
-        apiMockData);
+    return invokeApiPostCall("mockdata/save", de.joergdev.mosy.api.response.mockdata.SaveResponse.class, apiMockData);
   }
 
   public EmptyResponse deleteMockData(Integer id)
@@ -252,11 +248,9 @@ public class MosyApiClient
 
   //------------------ MockServices -----------------------------------
 
-  public CustomRequestResponse customRequest(CustomRequestRequest request, String mockProfileName,
-                                             Integer recordSessionID)
+  public CustomRequestResponse customRequest(CustomRequestRequest request, String mockProfileName, Integer recordSessionID)
   {
-    return invokeApiPostCall("mock-services/custom-request", CustomRequestResponse.class, request,
-        mockProfileName, recordSessionID);
+    return invokeApiPostCall("mock-services/custom-request", CustomRequestResponse.class, request, mockProfileName, recordSessionID);
   }
 
   //------------------ End MockServices -------------------------------
@@ -268,8 +262,7 @@ public class MosyApiClient
     return invokeApiGetCall(path, responseClass, null);
   }
 
-  private <T extends AbstractResponse> T invokeApiGetCall(String path, Class<T> responseClass,
-                                                          Map<String, Object> queryParams)
+  private <T extends AbstractResponse> T invokeApiGetCall(String path, Class<T> responseClass, Map<String, Object> queryParams)
   {
     return invokeApiCall(path, HttpMethod.GET, responseClass, null, queryParams, null, null);
   }
@@ -279,11 +272,9 @@ public class MosyApiClient
     return invokeApiCall(path, HttpMethod.PUT, responseClass, entity, null, null, null);
   }
 
-  private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity,
-                                                           String mockProfileName, Integer recordSessionID)
+  private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity, String mockProfileName, Integer recordSessionID)
   {
-    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, mockProfileName,
-        recordSessionID);
+    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, mockProfileName, recordSessionID);
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity)
@@ -296,8 +287,7 @@ public class MosyApiClient
     return invokeApiCall(path, HttpMethod.DELETE, responseClass, null, null, null, null);
   }
 
-  private <T extends AbstractResponse> T invokeApiCall(String path, HttpMethod method, Class<T> responseClass,
-                                                       Object entity, Map<String, Object> queryParams,
+  private <T extends AbstractResponse> T invokeApiCall(String path, HttpMethod method, Class<T> responseClass, Object entity, Map<String, Object> queryParams,
                                                        String mockProfileName, Integer recordSessionID)
   {
     Client client = ClientBuilder.newClient();
@@ -346,8 +336,7 @@ public class MosyApiClient
     }
 
     // invoke and check4error
-    T response = invokeAndGetResponse(method, responseClass, entity, invocationBuilder,
-        webTarget.getUri().toString());
+    T response = invokeAndGetResponse(method, responseClass, entity, invocationBuilder, webTarget.getUri().toString());
 
     checkForError(response);
 
@@ -360,14 +349,11 @@ public class MosyApiClient
 
     if (!response.isStateOK())
     {
-      throw new MosyApiClientException(
-          response.getMessagesForLevel(ResponseMessageLevel.FATAL, ResponseMessageLevel.ERROR));
+      throw new MosyApiClientException(response.getMessagesForLevel(ResponseMessageLevel.FATAL, ResponseMessageLevel.ERROR));
     }
   }
 
-  private <T extends AbstractResponse> T invokeAndGetResponse(HttpMethod method, Class<T> responseClass,
-                                                              Object entity,
-                                                              Invocation.Builder invocationBuilder,
+  private <T extends AbstractResponse> T invokeAndGetResponse(HttpMethod method, Class<T> responseClass, Object entity, Invocation.Builder invocationBuilder,
                                                               String endpoint)
   {
     T response = null;
