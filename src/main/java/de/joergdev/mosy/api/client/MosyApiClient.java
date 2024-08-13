@@ -20,7 +20,10 @@ import de.joergdev.mosy.api.model.MockData;
 import de.joergdev.mosy.api.model.MockProfile;
 import de.joergdev.mosy.api.model.Record;
 import de.joergdev.mosy.api.model.RecordConfig;
+import de.joergdev.mosy.api.model.Tenant;
 import de.joergdev.mosy.api.request.mockservices.CustomRequestRequest;
+import de.joergdev.mosy.api.request.system.LoginRequest;
+import de.joergdev.mosy.api.request.tenant.SaveRequest;
 import de.joergdev.mosy.api.response.AbstractResponse;
 import de.joergdev.mosy.api.response.EmptyResponse;
 import de.joergdev.mosy.api.response.ResponseMessageLevel;
@@ -55,7 +58,16 @@ public class MosyApiClient
   // ------------------ System -------------------------------
   public LoginResponse systemLogin(Integer hash)
   {
-    LoginResponse response = invokeApiPostCall("system/login", LoginResponse.class, hash);
+    return systemLogin(null, hash);
+  }
+
+  public LoginResponse systemLogin(Integer tenantId, Integer hash)
+  {
+    LoginRequest request = new LoginRequest();
+    request.setTenantId(tenantId);
+    request.setSecretHash(hash);
+
+    LoginResponse response = invokeApiPostCall("system/login", LoginResponse.class, request);
 
     this.token = response.getToken();
 
@@ -77,6 +89,34 @@ public class MosyApiClient
     return invokeApiPostCall("system/boot", EmptyResponse.class, null);
   }
   //------------------ End System -------------------------------
+
+  //------------------ Tenants -------------------------------
+
+  public de.joergdev.mosy.api.response.tenant.LoadAllResponse loadTenants()
+  {
+    return invokeApiGetCall("tenants", de.joergdev.mosy.api.response.tenant.LoadAllResponse.class);
+  }
+
+  public de.joergdev.mosy.api.response.tenant.SaveResponse saveTenant(Tenant apiTenant)
+  {
+    return saveTenant(apiTenant, null);
+  }
+
+  public de.joergdev.mosy.api.response.tenant.SaveResponse saveTenant(Tenant apiTenant, Integer secretHash)
+  {
+    SaveRequest req = new SaveRequest();
+    req.setTenant(apiTenant);
+    req.setSecretHash(secretHash);
+
+    return invokeApiPostCall("tenants/save", de.joergdev.mosy.api.response.tenant.SaveResponse.class, req);
+  }
+
+  public EmptyResponse deleteTenant(Integer id)
+  {
+    return invokeApiDeleteCall("tenants/" + id + "/delete", EmptyResponse.class);
+  }
+
+  //------------------ End Tenants -------------------------------
 
   //------------------ GlobalConfig -------------------------------
 
@@ -250,7 +290,12 @@ public class MosyApiClient
 
   public CustomRequestResponse customRequest(CustomRequestRequest request, String mockProfileName, Integer recordSessionID)
   {
-    return invokeApiPostCall("mock-services/custom-request", CustomRequestResponse.class, request, mockProfileName, recordSessionID);
+    return customRequest(request, mockProfileName, recordSessionID, null);
+  }
+
+  public CustomRequestResponse customRequest(CustomRequestRequest request, String mockProfileName, Integer recordSessionID, Integer tenantId)
+  {
+    return invokeApiPostCall("mock-services/custom-request", CustomRequestResponse.class, request, mockProfileName, recordSessionID, tenantId);
   }
 
   //------------------ End MockServices -------------------------------
@@ -264,31 +309,32 @@ public class MosyApiClient
 
   private <T extends AbstractResponse> T invokeApiGetCall(String path, Class<T> responseClass, Map<String, Object> queryParams)
   {
-    return invokeApiCall(path, HttpMethod.GET, responseClass, null, queryParams, null, null);
+    return invokeApiCall(path, HttpMethod.GET, responseClass, null, queryParams, null, null, null);
   }
 
   private <T extends AbstractResponse> T invokeApiPutCall(String path, Class<T> responseClass, Object entity)
   {
-    return invokeApiCall(path, HttpMethod.PUT, responseClass, entity, null, null, null);
+    return invokeApiCall(path, HttpMethod.PUT, responseClass, entity, null, null, null, null);
   }
 
-  private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity, String mockProfileName, Integer recordSessionID)
+  private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity, String mockProfileName, Integer recordSessionID,
+                                                           Integer tenantId)
   {
-    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, mockProfileName, recordSessionID);
+    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, mockProfileName, recordSessionID, tenantId);
   }
 
   private <T extends AbstractResponse> T invokeApiPostCall(String path, Class<T> responseClass, Object entity)
   {
-    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, null, null);
+    return invokeApiCall(path, HttpMethod.POST, responseClass, entity, null, null, null, null);
   }
 
   private <T extends AbstractResponse> T invokeApiDeleteCall(String path, Class<T> responseClass)
   {
-    return invokeApiCall(path, HttpMethod.DELETE, responseClass, null, null, null, null);
+    return invokeApiCall(path, HttpMethod.DELETE, responseClass, null, null, null, null, null);
   }
 
   private <T extends AbstractResponse> T invokeApiCall(String path, HttpMethod method, Class<T> responseClass, Object entity, Map<String, Object> queryParams,
-                                                       String mockProfileName, Integer recordSessionID)
+                                                       String mockProfileName, Integer recordSessionID, Integer tenantId)
   {
     Client client = ClientBuilder.newClient();
 
@@ -321,6 +367,12 @@ public class MosyApiClient
     if (token != null)
     {
       invocationBuilder.header(HttpHeaders.AUTHORIZATION, token);
+    }
+
+    // set tenantId (for multi-tanency mode)
+    if (tenantId != null)
+    {
+      invocationBuilder.header(APIConstants.HTTP_HEADER_TENANT_ID, tenantId);
     }
 
     // set mockProfileID
