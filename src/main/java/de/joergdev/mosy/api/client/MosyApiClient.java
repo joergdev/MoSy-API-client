@@ -339,7 +339,7 @@ public class MosyApiClient
     Client client = ClientBuilder.newClient();
 
     // Build endppoint (WebTarget)
-    WebTarget webTarget = client.target(Resources.getProperty("api_endpoint"));
+    WebTarget webTarget = client.target(Resources.getApiEndpoint());
 
     StringTokenizer tok = new StringTokenizer(path, "/");
     while (tok.hasMoreTokens())
