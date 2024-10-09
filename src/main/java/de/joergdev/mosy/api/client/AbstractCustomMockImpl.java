@@ -49,7 +49,7 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  * 
  * 
  * 
- * public class CarCustomMockImpl extends AbstractCustomMockImpl<Car>
+ * public class CarCustomMockImpl extends AbstractCustomMockImpl&lt;Car&gt;
  * {
  *  private Integer carID;
  *  
@@ -64,7 +64,7 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  *  {
  *    req.setInterfaceName("CarService");
  *    req.setInterfaceMethod("loadCar");
- *    req.setRequest("<id>" + carID + "</id>");
+ *    req.setRequest("&lt;id&gt;" + carID + "&lt;/id&gt;");
  *  }
  *
  *  public MosyApiClient getMosyApiClient()
@@ -85,7 +85,7 @@ import de.joergdev.mosy.api.response.record.SaveResponse;
  * </pre>
  * 
  * @author Andreas Joerg
- * @param <T> Responsetype
+ * @param <T> Responsetype - dynmaic return type for mock response
  */
 public abstract class AbstractCustomMockImpl<T>
 {
@@ -110,8 +110,7 @@ public abstract class AbstractCustomMockImpl<T>
 
       mosyApiClient = getMosyApiClient();
 
-      CustomRequestResponse response = mosyApiClient.customRequest(req,
-          customMockArguments.getMockProfileName(), customMockArguments.getRecordSessionID());
+      CustomRequestResponse response = mosyApiClient.customRequest(req, customMockArguments.getMockProfileName(), customMockArguments.getRecordSessionID());
 
       // Routing
       if (response.isRoute())
@@ -140,7 +139,7 @@ public abstract class AbstractCustomMockImpl<T>
    * 
    * Set {@link CustomRequestRequest} interface name, method name and request data.
    * 
-   * @param req
+   * @param req - CustomRequestRequest
    */
   public abstract void fillCustomRequestRequest(CustomRequestRequest req);
 
@@ -149,7 +148,7 @@ public abstract class AbstractCustomMockImpl<T>
   /**
    * Build Mockresponse of type T (for example your expected DTO) by {@link CustomRequestResponse}.
    * 
-   * @param response
+   * @param response - CustomRequestResponse
    * @return T
    */
   public abstract T getMockResponse(CustomRequestResponse response);
