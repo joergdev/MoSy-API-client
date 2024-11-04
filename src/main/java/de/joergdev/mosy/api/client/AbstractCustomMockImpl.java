@@ -110,7 +110,8 @@ public abstract class AbstractCustomMockImpl<T>
 
       mosyApiClient = getMosyApiClient();
 
-      CustomRequestResponse response = mosyApiClient.customRequest(req, customMockArguments.getMockProfileName(), customMockArguments.getRecordSessionID());
+      CustomRequestResponse response = mosyApiClient.customRequest(req, customMockArguments.getMockProfileName(), customMockArguments.getRecordSessionID(),
+          customMockArguments.getTenantId());
 
       // Routing
       if (response.isRoute())
