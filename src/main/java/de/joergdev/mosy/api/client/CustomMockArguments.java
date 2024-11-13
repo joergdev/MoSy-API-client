@@ -5,6 +5,7 @@ public class CustomMockArguments
   private boolean mockEnabled;
   private String mockProfileName;
   private Integer recordSessionID;
+  private Integer tenantId;
 
   public boolean isMockEnabled()
   {
@@ -34,5 +35,15 @@ public class CustomMockArguments
   public void setRecordSessionID(Integer recordSessionID)
   {
     this.recordSessionID = recordSessionID;
+  }
+
+  public Integer getTenantId()
+  {
+    return tenantId;
+  }
+
+  public void setTenantId(Integer tenantId)
+  {
+    this.tenantId = tenantId;
   }
 }
