@@ -1,21 +1,29 @@
 package de.joergdev.mosy.api.client;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 import de.joergdev.mosy.api.APIConstants;
 import de.joergdev.mosy.api.model.BaseData;
 import de.joergdev.mosy.api.model.HttpMethod;
 import de.joergdev.mosy.api.model.Interface;
+import de.joergdev.mosy.api.model.InterfaceMethod;
 import de.joergdev.mosy.api.model.MockData;
 import de.joergdev.mosy.api.model.MockProfile;
 import de.joergdev.mosy.api.model.Record;
@@ -38,6 +46,7 @@ import de.joergdev.mosy.api.response.record.session.CreateResponse;
 import de.joergdev.mosy.api.response.record.session.LoadSessionsResponse;
 import de.joergdev.mosy.api.response.system.LoadBaseDataResponse;
 import de.joergdev.mosy.api.response.system.LoginResponse;
+import de.joergdev.mosy.shared.Utils;
 
 public class MosyApiClient
 {
@@ -82,6 +91,44 @@ public class MosyApiClient
   public LoadBaseDataResponse systemLoadBasedata()
   {
     return invokeApiGetCall("system/load-basedata", LoadBaseDataResponse.class);
+  }
+
+  public EmptyResponse importData(BaseData baseData)
+  {
+    return invokeApiPostCall("system/import-data", EmptyResponse.class, baseData);
+  }
+
+  /**
+   * Export data (interfaces and methods) as JSON to given file.
+   *
+   * @return Path - path to saved export file
+   * @throws IOException 
+   * @throws Exception
+   */
+  public Path exportDataToFile(String outputFile) throws IOException
+  {
+    BaseData apiBaseData = systemLoadBasedata().getBaseData();
+
+    removeIds(apiBaseData);
+
+    String json = Utils.object2Json(apiBaseData);
+
+    return Files.write(Paths.get(new File(outputFile).toURI()), json.getBytes(StandardCharsets.UTF_8), StandardOpenOption.TRUNCATE_EXISTING,
+        StandardOpenOption.CREATE);
+  }
+
+  private void removeIds(BaseData apiBaseData)
+  {
+    for (Interface apiInterface : apiBaseData.getInterfaces())
+    {
+      apiInterface.setInterfaceId(null);
+
+      for (InterfaceMethod apiMethod : apiInterface.getMethods())
+      {
+        apiMethod.setInterfaceId(null);
+        apiMethod.setInterfaceMethodId(null);
+      }
+    }
   }
 
   public EmptyResponse systemBoot()
