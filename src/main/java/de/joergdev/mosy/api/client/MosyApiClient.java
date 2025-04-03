@@ -102,8 +102,7 @@ public class MosyApiClient
    * Export data (interfaces and methods) as JSON to given file.
    *
    * @return Path - path to saved export file
-   * @throws IOException 
-   * @throws Exception
+   * @throws IOException
    */
   public Path exportDataToFile(String outputFile) throws IOException
   {
