@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -18,7 +20,6 @@ import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
-import org.apache.log4j.Logger;
 import de.joergdev.mosy.api.APIConstants;
 import de.joergdev.mosy.api.model.BaseData;
 import de.joergdev.mosy.api.model.HttpMethod;
@@ -50,7 +51,7 @@ import de.joergdev.mosy.shared.Utils;
 
 public class MosyApiClient
 {
-  private static final Logger LOG = Logger.getLogger(MosyApiClient.class);
+  private static final Logger LOG = LogManager.getLogger(MosyApiClient.class);
 
   private String token;
 
